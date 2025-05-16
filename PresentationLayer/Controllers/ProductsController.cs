@@ -63,18 +63,13 @@ namespace PresentationLayer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override async Task<IActionResult> Edit(int id, Product product)
+        public override async Task<IActionResult> Edit(Product product)
         {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _productService.UpdateAsync(id, product);
+                    await _productService.UpdateAsync(product);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)

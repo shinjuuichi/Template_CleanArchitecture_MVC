@@ -10,6 +10,8 @@ namespace DataAccessLayer.Interfaces.Base
         Task<List<T>> GetAllWithDeletedAsync(string[]? includes = null);
         Task<T?> GetByIdAsync(int id, string[]? includes = null);
 
+        Task<bool> IsExistById(int id);
+
         Task<T> AddAsync(T entity);
         Task AddRangeAsync(List<T> entities);
 

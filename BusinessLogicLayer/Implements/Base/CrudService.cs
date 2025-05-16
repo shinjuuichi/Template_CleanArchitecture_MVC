@@ -21,12 +21,11 @@ public class CrudService<TModel>(
         return resultEntity;
     }
 
-    public virtual async Task<TModel> UpdateAsync(int id, TModel updatedEntity)
+    public virtual async Task<TModel> UpdateAsync(TModel updatedEntity)
     {
-        var existing = await _repository.GetByIdAsync(id)
-            ?? throw new DataNotFoundException(typeof(TModel), id);
+        bool isExist = await _repository.IsExistById(updatedEntity.Id);
+        if (!isExist) throw new DataNotFoundException(typeof(TModel), updatedEntity.Id);
 
-        updatedEntity.Id = id;
         updatedEntity.TryValidate();
         var resultEntity = _repository.Update(updatedEntity);
         await _unitOfWork.SaveChangeAsync();

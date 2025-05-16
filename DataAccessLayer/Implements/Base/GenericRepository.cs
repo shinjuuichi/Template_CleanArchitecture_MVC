@@ -45,7 +45,7 @@ namespace DataAccessLayer.Implements.Base
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public virtual async Task<T?> GetByIdAsync(int id, string[]? includes = null)
+        public async Task<T?> GetByIdAsync(int id, string[]? includes = null)
         {
             if (!typeof(BaseEntity).IsAssignableFrom(typeof(T)))
             {
@@ -68,6 +68,17 @@ namespace DataAccessLayer.Implements.Base
             }
 
             return entity;
+        }
+
+
+        public async Task<bool> IsExistById(int id)
+        {
+            if (!typeof(BaseEntity).IsAssignableFrom(typeof(T)))
+            {
+                return false;
+            }
+
+            return await _dbContext.Set<T>().AnyAsync(entity => (entity as BaseEntity)!.Id == id);
         }
 
         public virtual async Task<T> AddAsync(T entity)

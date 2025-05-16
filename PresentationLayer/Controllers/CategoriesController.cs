@@ -48,14 +48,9 @@ namespace PresentationLayer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public override async Task<IActionResult> Edit(int id, Category category)
+        public override async Task<IActionResult> Edit(Category category)
         {
-            if (id != category.Id)
-            {
-                return NotFound();
-            }
-
-            await _categoryService.UpdateAsync(id, category);
+            await _categoryService.UpdateAsync(category);
             return RedirectToAction(nameof(Index));
         }
 
