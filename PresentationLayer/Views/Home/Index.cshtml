@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @if (Context.Session.GetString("UserEmail") != null && Context.Session.GetInt32("UserId") != null)
+    {
+        <h3>Welcome @Context.Session.GetString("UserEmail") (ID: @Context.Session.GetInt32("UserId"))</h3>
+    }
+
+    <form asp-action="UploadImage" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <label>Select an image to upload:</label>
+        <input type="file" name="imageFile" />
+        <button type="submit">Upload</button>
+    </form>
+
+    <form asp-action="DeleteImage" asp-controller="Home" method="post">
+        <label>Enter image filename to delete:</label>
+        <input type="text" name="fileName" />
+        <button type="submit">Delete</button>
+    </form>
+
+    @if (ViewBag.ImageData != null)
+    {
+        <h4>Uploaded Image:</h4>
+        <img src="data:image/jpeg;base64,@ViewBag.ImageData" style="max-width:300px;" />
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <p>@ViewBag.Message</p>
+    }
+</div>
